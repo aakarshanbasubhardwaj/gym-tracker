@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#172033">
+<title>6-Month Gym Plan</title>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#172033;--muted:#667085;--line:#e5e9f0;--accent:#f47721;--soft:#fff2e8;--green:#147d55;--blue:#3156a6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.52 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+header{background:#172033;color:#fff;padding:28px 18px 22px}
+header .eyebrow{color:#ffbd8c;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:800}
+h1{font-size:27px;line-height:1.15;margin:8px 0}
+header p{margin:8px 0 0;color:#d8deea}
+main{max-width:850px;margin:auto;padding:16px 13px 60px}
+nav{position:sticky;top:0;z-index:5;background:rgba(243,245,249,.96);backdrop-filter:blur(10px);padding:9px 0;display:flex;gap:7px;overflow-x:auto}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700}
+section,.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;margin:13px 0;box-shadow:0 2px 8px rgba(20,30,50,.035)}
+h2{font-size:21px;margin:0 0 10px}
+h3{font-size:17px;margin:0 0 8px}
+h4{font-size:15px;margin:0 0 5px}
+p{margin:6px 0}
+.small,.muted{color:var(--muted);font-size:13px}
+.pill{display:inline-block;background:var(--soft);color:#a64b0b;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800;margin:2px 4px 5px 0}
+.callout{background:#f6f8fc;border-left:4px solid var(--blue);padding:11px 13px;border-radius:8px;margin:10px 0}
+.warn{background:#fff8e9;border-left-color:#d28a13}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.exercise{border:1px solid var(--line);border-radius:13px;margin:11px 0;overflow:hidden;background:#fff}
+.exercise summary{list-style:none;cursor:pointer;padding:13px 14px;display:flex;gap:10px;align-items:center}
+.exercise summary::-webkit-details-marker{display:none}
+.exercise summary:after{content:"＋";margin-left:auto;color:var(--muted);font-size:19px}
+.exercise[open] summary:after{content:"−"}
+.num{background:#edf1f8;color:#34476b;width:29px;height:29px;border-radius:9px;display:grid;place-items:center;font-weight:800;flex:none}
+.ex-title{font-weight:800;flex:1}
+.ex-meta{font-size:12px;color:var(--green);font-weight:800;white-space:nowrap}
+.ex-body{padding:0 14px 14px 53px}
+.ex-body ul{margin:6px 0 9px;padding-left:19px}
+.ex-body li{margin:4px 0}
+.target{font-size:13px;color:var(--muted);margin-top:6px}
+.check{display:flex;align-items:flex-start;gap:9px;margin:9px 0;font-size:14px}
+.check input{width:18px;height:18px;margin-top:2px;accent-color:var(--green)}
+.progress{height:8px;background:#e9edf3;border-radius:99px;overflow:hidden;margin:8px 0}
+.progress span{display:block;height:100%;width:0;background:var(--green);transition:width .2s}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+button{border:0;border-radius:9px;padding:9px 12px;background:#172033;color:white;font-weight:700;font-size:13px}
+button.secondary{background:#edf1f8;color:#172033}
+.phase{scroll-margin-top:65px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+@media(min-width:650px){main{padding:22px 20px 60px}.exercise summary{padding:15px 17px}.ex-body{padding-left:60px}}
+
+/* Exercise logging */
+.log-panel{margin-top:12px;padding:11px;background:#f5f7fb;border:1px solid #e1e7f0;border-radius:12px}
+.log-title{font-size:12px;font-weight:800;color:#34476b;margin-bottom:8px}
+.log-entry{display:grid;grid-template-columns:1fr 1fr 38px;gap:7px;align-items:end}
+.log-field label{display:block;font-size:11px;color:var(--muted);margin:0 0 4px}
+.log-field input{box-sizing:border-box;width:100%;min-width:0;border:1px solid #cbd4e1;border-radius:8px;padding:9px 8px;background:#fff;color:#172033;font-size:15px}
+.add-log{width:38px;height:38px;padding:0;border-radius:9px;display:grid;place-items:center;font-size:23px;line-height:1;background:#172033;color:#fff}
+.add-log:active{transform:scale(.96)}
+.add-log{touch-action:manipulation;cursor:pointer}
+.log-feedback{font-weight:700}
+.log-feedback{font-size:12px;color:var(--green);margin-top:7px;min-height:15px}
+.history-toggle{margin-top:7px;padding:5px 0;background:transparent;color:#34476b;font-size:12px;text-decoration:underline}
+.exercise-history{margin-top:7px;font-size:12px}
+.history-row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid #e1e7f0}
+.history-empty{color:var(--muted);padding:5px 0}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Training guide · 6-month framework</div>
+  <h1>Your gym plan</h1>
+  <p>Foundation → Upper/lower → Continued progression</p>
+  <p class="small" style="color:#c7d0df">A practical guide for your first months back in the gym. Open an exercise to see its instructions.</p>
+</header>
+<main>
+<nav>
+  <a href="#start">Start here</a><a href="#phase1">Phase 1</a><a href="#phase2">Phase 2</a><a href="#phase3">Phase 3</a><a href="#rules">Training rules</a>
+</nav>
+
+<section id="start">
+<h2>Before your first workout</h2>
+<div class="callout"><b>Start with Workout A.</b> If your first session is Wednesday, do A on Wednesday, B on Friday and A on Sunday. Then continue alternating B / A / B with at least one day between lifting sessions.</div>
+<h3>Warm-up before every weights session: 10–15 minutes</h3>
+<p>Do this before <b>Workout A and B in Phase 1</b>, and before every <b>Upper A, Lower A, Upper B and Lower B</b> session in Phases 2–3. The warm-up prepares you for the movements you are about to do; it should not tire you out.</p>
+<div class="callout"><b>Step 1 — Raise your body temperature (5 minutes)</b><br>Choose treadmill walking, stationary bike or elliptical. Start easy for 2 minutes, then gradually increase to a brisk but comfortable pace for 3 minutes. You should feel warmer and breathe a little faster, but still be able to talk.</div>
+<div class="callout"><b>Step 2 — Dynamic movement preparation (3–4 minutes)</b>
+<ul>
+<li>Arm circles: 10 forward + 10 backward.</li>
+<li>Shoulder-blade squeezes: 10 slow repetitions.</li>
+<li>Bodyweight squats: 10 controlled repetitions.</li>
+<li>Hip hinges: 10 repetitions; push hips back with a neutral spine.</li>
+<li>Easy alternating reverse lunges: 5 each leg, holding a support if needed. Skip if uncomfortable.</li>
+</ul></div>
+<div class="callout"><b>Step 3 — Specific warm-up sets (2–6 minutes)</b><br>Before the first demanding lift, do 1–3 progressively heavier warm-up sets. These are not working sets and should feel easy.</div>
+<h4>Which warm-up sets should I do?</h4>
+<table><tr><th>Workout</th><th>Before working sets</th></tr>
+<tr><td>Phase 1 — Workout A</td><td>Chest press: 1–2 light sets (12 reps, then 6–8 reps). Leg press: 1 light set of 10 reps.</td></tr>
+<tr><td>Phase 1 — Workout B</td><td>Incline chest press: 1–2 light sets. Goblet squat: 1 easy bodyweight squat set, then 1 very light dumbbell set. RDL: practise 8 unloaded hip hinges first.</td></tr>
+<tr><td>Phase 2/3 — Upper A</td><td>Bench press: 2–3 ramp-up sets (e.g. empty/light bar × 10, then a moderate load × 5–6). Do not fatigue yourself.</td></tr>
+<tr><td>Phase 2/3 — Lower A</td><td>Hack squat: 2 light ramp-up sets. Leg press: 1 light set if needed.</td></tr>
+<tr><td>Phase 2/3 — Upper B</td><td>Incline dumbbell press: 1–2 light sets before working weight.</td></tr>
+<tr><td>Phase 2/3 — Lower B</td><td>RDL: 2–3 very light practice/ramp-up sets; begin with an unloaded hip hinge if technique needs practice. Bulgarian split squat: 1 easy bodyweight set per leg.</td></tr></table>
+<p><b>For the remaining exercises:</b> if the muscle/joint is already warm and the first set is light, you usually do not need separate warm-up sets for every isolation exercise. If an exercise feels stiff or unfamiliar, do one easy practice set.</p>
+<p class="small">Use lighter loads than your working weight. Warm-up reps should never be close to failure. Increase the number of ramp-up sets if the working weight is heavy; reduce them if the load is light.</p>
+<h3>Warm-up on cardio-only days</h3>
+<p>Start with 3–5 minutes at an easy pace, then gradually increase to your planned brisk walking, cycling or elliptical pace. Finish with 2–3 minutes easy. No strenuous stretching is required.</p>
+<h3>5 AM or 9 PM?</h3>
+<p>Both work. Muscle growth does not meaningfully depend on the time of day. Choose the time you can maintain while getting 7–9 hours of sleep.</p>
+<ul>
+<li><b>5 AM:</b> prepare clothes and breakfast the night before. Drink water; a banana is optional if you prefer a little food first.</li>
+<li><b>9 PM:</b> fine if it does not push bedtime later or disturb your sleep. If you feel wired afterwards, train earlier.</li>
+<li><b>Non-negotiable:</b> do not cut sleep to fit training in.</li>
+</ul>
+<h3>How hard should sets feel?</h3>
+<p>For the first weeks, finish most sets feeling you could still do about 2–3 good repetitions. No max attempts and no forced reps.</p>
+</section>
+
+<section id="phase1" class="phase">
+<h2>Phase 1 — Foundation</h2>
+<span class="pill">Weeks 1–8</span><span class="pill">Full body · 3 lifting days/week</span>
+<p>Learn the movements, become comfortable with the equipment and build consistency. Alternate A and B.</p>
+<table><tr><th>Week 1</th><th>Week 2</th></tr><tr><td>Workout A · B · A</td><td>Workout B · A · B</td></tr></table>
+<p class="small">Repeat this alternating pattern through week 8. If you miss a session, continue with the next workout rather than trying to cram sessions together.</p>
+<h3>Workout A</h3>
+<div class="exercise"><details><summary><span class="num">1</span><span class="ex-title">Chest press machine</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Adjust the seat so the handles are around mid-chest height.</li><li>Keep your back against the pad and feet flat.</li><li>Push forward until your arms are almost straight; do not forcefully lock the elbows.</li><li>Bring the handles back slowly and under control.</li><li>Keep elbows slightly below shoulder level; do not let the weights slam.</li></ul><div class="target">Targets: chest, triceps and front shoulders.</div><div class="log-panel" data-exercise="Chest press machine">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">2</span><span class="ex-title">Lat pulldown</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Secure thighs under the pads and grip the bar slightly wider than shoulder width.</li><li>Sit tall with only a slight backward lean.</li><li>Pull the bar towards your upper chest by driving your elbows down.</li><li>Let the bar rise slowly; keep control throughout.</li><li>Do not pull behind your neck or swing your torso.</li></ul><div class="target">Targets: lats and upper back, with biceps assisting.</div><div class="log-panel" data-exercise="Lat pulldown">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">3</span><span class="ex-title">Leg press</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Place feet about shoulder width apart on the platform.</li><li>Release the safety handles and lower the platform until your knees are comfortably bent.</li><li>Push through the whole foot to return; do not lock your knees.</li><li>Do not descend so far that your lower back curls away from the pad.</li></ul><div class="target">Targets: quadriceps, glutes and some hamstrings.</div><div class="log-panel" data-exercise="Leg press">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">4</span><span class="ex-title">Seated cable row</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Sit upright with knees slightly bent and arms extended.</li><li>Pull the handle towards your lower ribs or abdomen.</li><li>Squeeze your shoulder blades together without shrugging.</li><li>Return slowly; avoid rounding your back or rocking your torso.</li></ul><div class="target">Targets: mid-back, lats and biceps.</div><div class="log-panel" data-exercise="Seated cable row">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">5</span><span class="ex-title">Seated leg curl</span><span class="ex-meta">2 × 12–15</span></summary><div class="ex-body"><ul><li>Align your knee joint with the machine pivot.</li><li>Place the lower-leg pad just above your ankles.</li><li>Curl your heels down and back, pause briefly, then return slowly.</li><li>Keep your hips against the seat.</li></ul><div class="target">Targets: hamstrings.</div><div class="log-panel" data-exercise="Seated leg curl">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">6</span><span class="ex-title">Lateral raise machine</span><span class="ex-meta">2 × 12–15</span></summary><div class="ex-body"><ul><li>Sit with your arms against the machine pads.</li><li>Raise your arms sideways to approximately shoulder height.</li><li>Lower slowly. Avoid shrugging, swinging or using momentum.</li></ul><div class="target">Targets: side deltoids (shoulders).</div><div class="log-panel" data-exercise="Lateral raise machine">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">7</span><span class="ex-title">Forearm plank</span><span class="ex-meta">2 × 20–30 sec</span></summary><div class="ex-body"><ul><li>Place elbows directly beneath shoulders.</li><li>Keep your body in a straight line; tighten abdomen and glutes.</li><li>Do not let your lower back sag or hips rise too high.</li><li>Stop when you can no longer maintain position.</li></ul><div class="target">Targets: core stability.</div><div class="log-panel" data-exercise="Forearm plank">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+
+<h3>Workout B</h3>
+<div class="exercise"><details><summary><span class="num">1</span><span class="ex-title">Incline chest press machine</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Set the seat so handles begin around upper-chest height.</li><li>Keep your back against the pad and feet planted.</li><li>Press forward smoothly, then lower under control.</li><li>Avoid excessively flaring your elbows or locking them forcefully.</li></ul><div class="target">Targets: upper chest, triceps and front shoulders.</div><div class="log-panel" data-exercise="Incline chest press machine">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">2</span><span class="ex-title">Chest-supported row</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Adjust the chest pad so you can hold it comfortably against your chest.</li><li>Pull the handles towards your torso and squeeze your shoulder blades.</li><li>Return slowly without lifting your chest off the pad.</li></ul><div class="target">Targets: upper/middle back, lats and biceps.</div><div class="log-panel" data-exercise="Chest-supported row">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">3</span><span class="ex-title">Goblet squat</span><span class="ex-meta">2 × 10</span></summary><div class="ex-body"><ul><li>Hold one dumbbell vertically against your chest.</li><li>Stand about shoulder width apart, toes turned slightly out if comfortable.</li><li>Bend hips and knees, lowering only as far as you can keep a stable torso and planted feet.</li><li>Push through your feet to stand; keep knees tracking in the same direction as toes.</li></ul><div class="target">Targets: quadriceps and glutes.</div><div class="log-panel" data-exercise="Goblet squat">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">4</span><span class="ex-title">Seated shoulder press machine</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Set handles around shoulder height and keep your back supported.</li><li>Press upwards without arching your lower back.</li><li>Lower until elbows are comfortably bent; do not force a deep stretch.</li></ul><div class="target">Targets: shoulders and triceps.</div><div class="log-panel" data-exercise="Seated shoulder press machine">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">5</span><span class="ex-title">Dumbbell Romanian deadlift</span><span class="ex-meta">2 × 10</span></summary><div class="ex-body"><ul><li>Hold dumbbells in front of your thighs; keep a slight bend in your knees.</li><li>Push hips backwards while lowering dumbbells close to your legs.</li><li>Stop when you feel a hamstring stretch and can maintain a neutral back.</li><li>Drive hips forward to stand. This is a hip hinge, not a squat.</li></ul><div class="target">Targets: hamstrings and glutes. Start very light and ask a trainer to check your hip hinge.</div><div class="log-panel" data-exercise="Dumbbell Romanian deadlift">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">6</span><span class="ex-title">Dumbbell biceps curl</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Hold dumbbells with palms facing forward and elbows close to your sides.</li><li>Curl towards your shoulders without moving your upper arms.</li><li>Lower slowly; do not swing your torso.</li></ul><div class="target">Targets: biceps.</div><div class="log-panel" data-exercise="Dumbbell biceps curl">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">7</span><span class="ex-title">Rope triceps pushdown</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Attach a rope to a high cable pulley and hold one end in each hand.</li><li>Keep elbows close to your torso.</li><li>Push down until arms are almost straight; separate rope ends slightly at the bottom.</li><li>Return slowly without letting elbows drift forwards.</li></ul><div class="target">Targets: triceps.</div><div class="log-panel" data-exercise="Rope triceps pushdown">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<h3>Cardio days</h3>
+<ul><li><b>Tuesday:</b> 20–30 minutes brisk treadmill walking; start around 2–4% incline if comfortable.</li><li><b>Thursday:</b> 20–30 minutes bike or elliptical, followed by gentle mobility if desired.</li><li>Use a pace where you can still speak in sentences. Cardio should not leave you exhausted for lifting.</li></ul>
+<h3>Phase 1 progression</h3>
+<table><tr><th>Weeks</th><th>Focus</th></tr><tr><td>1–2</td><td>Learn equipment and technique. Use light weights.</td></tr><tr><td>3–4</td><td>Improve control and gradually add reps while staying in the prescribed range.</td></tr><tr><td>5–6</td><td>When all sets reach the top of the rep range with good form, add the smallest weight increment.</td></tr><tr><td>7–8</td><td>Continue gradual progression. Do not chase maximum weights.</td></tr></table>
+</section>
+
+<section id="phase2" class="phase">
+<h2>Phase 2 — Muscle and strength development</h2>
+<span class="pill">Weeks 9–16</span><span class="pill">Upper/lower · 4 days/week</span>
+<p>Move to this phase if you are consistent, understand the movements and recover well. You do not have to switch if Phase 1 is still working.</p>
+<table><tr><th>Day</th><th>Workout</th></tr><tr><td>Monday</td><td>Upper A</td></tr><tr><td>Tuesday</td><td>Lower A</td></tr><tr><td>Wednesday</td><td>Rest or easy cardio</td></tr><tr><td>Thursday</td><td>Upper B</td></tr><tr><td>Friday</td><td>Lower B</td></tr><tr><td>Saturday</td><td>Optional easy cardio/walking</td></tr><tr><td>Sunday</td><td>Rest</td></tr></table>
+<h3>Upper A — chest, back, shoulders and arms</h3>
+<div class="exercise"><details><summary><span class="num">1</span><span class="ex-title">Bench press</span><span class="ex-meta">3 × 8–10</span></summary><div class="ex-body"><ul><li>Lie with eyes approximately beneath the bar; plant feet firmly.</li><li>Grip slightly wider than shoulder width and keep shoulder blades stable against the bench.</li><li>Lower the bar towards mid-chest with control.</li><li>Press upwards without bouncing the bar or forcefully locking elbows.</li><li>Use a spotter or correctly positioned safety arms. Do not attempt heavy lifts alone.</li></ul><div class="target">Targets: chest, triceps and front shoulders.</div><div class="log-panel" data-exercise="Bench press">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">2</span><span class="ex-title">Lat pulldown</span><span class="ex-meta">3 × 10–12</span></summary><div class="ex-body"><ul><li>Secure thighs under pads; grip slightly wider than shoulder width.</li><li>Sit tall with a small backward lean and pull bar towards upper chest by driving elbows down.</li><li>Return slowly; no swinging and no behind-the-neck pulldowns.</li></ul><div class="target">Targets: lats, upper back and biceps.</div><div class="log-panel" data-exercise="Lat pulldown">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">3</span><span class="ex-title">Seated cable row</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Sit upright with knees slightly bent.</li><li>Pull handle towards abdomen and squeeze shoulder blades.</li><li>Return slowly without rounding your back or rocking your torso.</li></ul><div class="target">Targets: mid-back, lats and biceps.</div><div class="log-panel" data-exercise="Seated cable row">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">4</span><span class="ex-title">Shoulder press machine</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Set handles around shoulder height; keep back supported.</li><li>Press upwards without arching your lower back.</li><li>Lower under control until elbows are comfortably bent.</li></ul><div class="target">Targets: shoulders and triceps.</div><div class="log-panel" data-exercise="Shoulder press machine">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">5</span><span class="ex-title">Dumbbell lateral raise</span><span class="ex-meta">2 × 12–15</span></summary><div class="ex-body"><ul><li>Hold light dumbbells beside thighs with a slight elbow bend.</li><li>Raise arms outwards to about shoulder height.</li><li>Lower slowly. Do not swing or shrug.</li></ul><div class="target">Targets: side deltoids.</div><div class="log-panel" data-exercise="Dumbbell lateral raise">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">6</span><span class="ex-title">Dumbbell biceps curl</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Keep elbows close to your sides.</li><li>Curl without swinging; lower slowly.</li></ul><div class="target">Targets: biceps.</div><div class="log-panel" data-exercise="Dumbbell biceps curl">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">7</span><span class="ex-title">Triceps pushdown</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Keep elbows tucked near your torso.</li><li>Extend arms down smoothly, then return slowly without moving elbows.</li></ul><div class="target">Targets: triceps.</div><div class="log-panel" data-exercise="Triceps pushdown">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+
+<h3>Lower A — quadriceps, hamstrings, glutes and core</h3>
+<div class="exercise"><details><summary><span class="num">1</span><span class="ex-title">Hack squat machine</span><span class="ex-meta">3 × 8–10</span></summary><div class="ex-body"><ul><li>Position shoulders under pads and feet about shoulder width apart.</li><li>Keep back supported and lower slowly as far as comfortable while maintaining position.</li><li>Push through feet to return; do not lock knees.</li></ul><div class="target">Targets: quadriceps and glutes. If unavailable or uncomfortable, use goblet squats.</div><div class="log-panel" data-exercise="Hack squat machine">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">2</span><span class="ex-title">Leg press</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Feet around shoulder width; lower under control.</li><li>Keep lower back against pad and avoid excessive depth.</li><li>Push through whole foot without locking knees.</li></ul><div class="target">Targets: quadriceps and glutes.</div><div class="log-panel" data-exercise="Leg press">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">3</span><span class="ex-title">Seated leg curl</span><span class="ex-meta">3 × 10–12</span></summary><div class="ex-body"><ul><li>Align knee with machine pivot and pad just above ankles.</li><li>Curl down, pause briefly, then return slowly.</li><li>Keep hips against the seat.</li></ul><div class="target">Targets: hamstrings.</div><div class="log-panel" data-exercise="Seated leg curl">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">4</span><span class="ex-title">Standing calf raise</span><span class="ex-meta">3 × 12–15</span></summary><div class="ex-body"><ul><li>Position shoulders under pads and place forefeet on platform.</li><li>Lower heels to a comfortable stretch, then rise onto toes.</li><li>Pause at top; avoid bouncing.</li></ul><div class="target">Targets: calves.</div><div class="log-panel" data-exercise="Standing calf raise">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">5</span><span class="ex-title">Plank</span><span class="ex-meta">3 × 30–45 sec</span></summary><div class="ex-body"><ul><li>Elbows under shoulders; body in a straight line.</li><li>Brace abdomen and glutes; avoid sagging or raising hips.</li><li>Stop when form breaks.</li></ul><div class="target">Targets: core stability.</div><div class="log-panel" data-exercise="Plank">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+
+<h3>Upper B — chest, back, shoulders and arms</h3>
+<div class="exercise"><details><summary><span class="num">1</span><span class="ex-title">Incline dumbbell press</span><span class="ex-meta">3 × 8–12</span></summary><div class="ex-body"><ul><li>Set bench to about 20–30 degrees.</li><li>Hold dumbbells above upper chest; lower towards the sides of upper chest.</li><li>Press upwards smoothly, keeping wrists straight and shoulders stable.</li></ul><div class="target">Targets: upper chest, triceps and front shoulders.</div><div class="log-panel" data-exercise="Incline dumbbell press">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">2</span><span class="ex-title">Assisted pull-up</span><span class="ex-meta">3 × 8–10</span></summary><div class="ex-body"><ul><li>Choose enough machine assistance to perform controlled reps.</li><li>Grip handles slightly wider than shoulder width and pull upwards until chin approaches handle height.</li><li>Lower slowly; avoid swinging.</li></ul><div class="target">Targets: lats, upper back and biceps. Substitute lat pulldown if needed.</div><div class="log-panel" data-exercise="Assisted pull-up">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">3</span><span class="ex-title">Chest-supported row</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Keep chest against pad and pull handles towards torso.</li><li>Squeeze shoulder blades, then return slowly.</li></ul><div class="target">Targets: upper/middle back and lats.</div><div class="log-panel" data-exercise="Chest-supported row">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">4</span><span class="ex-title">Reverse pec deck</span><span class="ex-meta">2 × 12–15</span></summary><div class="ex-body"><ul><li>Face the machine with chest against pad and hold handles in front.</li><li>Move arms outwards and backwards with a slight elbow bend.</li><li>Return slowly without shrugging.</li></ul><div class="target">Targets: rear shoulders and upper back.</div><div class="log-panel" data-exercise="Reverse pec deck">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">5</span><span class="ex-title">Hammer curl</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Hold dumbbells with palms facing each other.</li><li>Curl upwards without rotating wrists or swinging.</li><li>Lower slowly.</li></ul><div class="target">Targets: biceps, brachialis and forearms.</div><div class="log-panel" data-exercise="Hammer curl">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">6</span><span class="ex-title">Overhead rope triceps extension</span><span class="ex-meta">2 × 10–12</span></summary><div class="ex-body"><ul><li>Use a rope on a low cable pulley and face away from the machine.</li><li>Hold rope behind your head with elbows pointing forwards.</li><li>Extend arms upwards, then lower slowly behind your head.</li><li>Use a comfortable range; do not force your shoulders.</li></ul><div class="target">Targets: triceps, especially the long head.</div><div class="log-panel" data-exercise="Overhead rope triceps extension">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+
+<h3>Lower B — posterior chain, legs and core</h3>
+<div class="exercise"><details><summary><span class="num">1</span><span class="ex-title">Romanian deadlift</span><span class="ex-meta">3 × 8–10</span></summary><div class="ex-body"><ul><li>Hold dumbbells in front of thighs with a slight knee bend.</li><li>Push hips backwards and lower weights close to legs.</li><li>Stop at a hamstring stretch while keeping a neutral back.</li><li>Drive hips forward to stand. Increase weight only when technique is consistent.</li></ul><div class="target">Targets: hamstrings and glutes.</div><div class="log-panel" data-exercise="Romanian deadlift">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">2</span><span class="ex-title">Bulgarian split squat</span><span class="ex-meta">2 × 8–10 each leg</span></summary><div class="ex-body"><ul><li>Stand a comfortable step in front of a bench; rest rear foot on it.</li><li>Lower by bending front knee while keeping front foot planted.</li><li>Push through front foot to stand.</li><li>Start with bodyweight; add dumbbells only after balance and control are good.</li></ul><div class="target">Targets: quadriceps and glutes.</div><div class="log-panel" data-exercise="Bulgarian split squat">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">3</span><span class="ex-title">Leg extension</span><span class="ex-meta">2 × 12–15</span></summary><div class="ex-body"><ul><li>Align knees with machine pivot and pad above ankles.</li><li>Extend legs until nearly straight, pause briefly and lower slowly.</li><li>Do not kick the weight up.</li></ul><div class="target">Targets: quadriceps.</div><div class="log-panel" data-exercise="Leg extension">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">4</span><span class="ex-title">Seated leg curl</span><span class="ex-meta">2 × 12–15</span></summary><div class="ex-body"><ul><li>Align knee with pivot and keep hips on seat.</li><li>Curl smoothly and return slowly; do not let weight stack drop.</li></ul><div class="target">Targets: hamstrings.</div><div class="log-panel" data-exercise="Seated leg curl">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">5</span><span class="ex-title">Seated calf raise</span><span class="ex-meta">3 × 12–15</span></summary><div class="ex-body"><ul><li>Place forefeet on platform and pads over lower thighs.</li><li>Lower heels under control, then rise onto toes.</li><li>Pause at top; avoid bouncing.</li></ul><div class="target">Targets: calves.</div><div class="log-panel" data-exercise="Seated calf raise">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+<div class="exercise"><details><summary><span class="num">6</span><span class="ex-title">Cable crunch</span><span class="ex-meta">2 × 12–15</span></summary><div class="ex-body"><ul><li>Kneel facing high cable pulley and hold rope beside your head.</li><li>Curl your torso down by contracting abs; do not just pull with arms.</li><li>Return slowly and keep hips mostly still.</li></ul><div class="target">Targets: abdominal muscles.</div><div class="log-panel" data-exercise="Cable crunch">
+<div class="log-title">Record a working set</div>
+<div class="log-entry">
+  <div class="log-field"><label>Weight (kg)</label><input class="log-weight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="e.g. 40"></div>
+  <div class="log-field"><label>Reps</label><input class="log-reps" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 12"></div>
+  <button class="add-log" type="button" aria-label="Add set" title="Add set">＋</button>
+</div>
+<div class="log-feedback" aria-live="polite"></div>
+<button class="history-toggle" type="button">Show history</button>
+<div class="exercise-history" hidden></div>
+</div></div></details></div>
+</section>
+
+<section id="phase3" class="phase">
+<h2>Phase 3 — Continued muscle development</h2>
+<span class="pill">Months 5–6</span><span class="pill">Continue upper/lower · 4 days/week</span>
+<p>This is not a brand-new split. Keep the Phase 2 schedule and exercises. The aim is to progress the programme rather than change exercises just for novelty.</p>
+<ul>
+<li><b>Main compound movements:</b> gradually increase weight while maintaining good technique.</li>
+<li><b>Chest and back:</b> work towards 3 sets per exercise where recovery is good.</li>
+<li><b>Legs:</b> work towards 3 sets on the main movements; keep accessory volume manageable.</li>
+<li><b>Shoulders and arms:</b> generally 2–3 sets per exercise.</li>
+<li><b>Core:</b> increase plank duration or cable-crunch resistance gradually.</li>
+<li><b>Cardio:</b> 2 easy sessions of 20–30 minutes if recovery allows.</li>
+</ul>
+<h3>Optional substitutions — not mandatory upgrades</h3>
+<table><tr><th>Current exercise</th><th>Possible alternative</th></tr><tr><td>Bench press</td><td>Dumbbell bench press</td></tr><tr><td>Hack squat</td><td>Barbell squat or Smith-machine squat</td></tr><tr><td>Assisted pull-up</td><td>Unassisted pull-up, once capable</td></tr><tr><td>Dumbbell Romanian deadlift</td><td>Barbell Romanian deadlift</td></tr></table>
+<div class="callout">Machines remain effective for building muscle. Do not replace them simply because free weights look more advanced.</div>
+<p>Continue Upper A / Lower A / Upper B / Lower B from Phase 2. If you are still progressing and recovering well, stay with it beyond month 6.</p>
+</section>
+
+<section id="rules">
+<h2>Rules for all phases</h2>
+<h3>Rest between working sets</h3>
+<table><tr><th>Exercise type</th><th>Rest</th></tr><tr><td>Bench press, squat, leg press, RDL</td><td>2–3 minutes</td></tr><tr><td>Rows, pulldowns, shoulder press</td><td>90–150 seconds</td></tr><tr><td>Curls, lateral raises, triceps</td><td>60–90 seconds</td></tr><tr><td>Plank and core</td><td>45–90 seconds</td></tr></table>
+<h3>Double progression</h3>
+<p>Example: bench press target is 3 sets of 8–10 reps.</p>
+<table><tr><th>Session</th><th>Weight</th><th>Reps</th></tr><tr><td>1</td><td>20 kg</td><td>8, 8, 8</td></tr><tr><td>2</td><td>20 kg</td><td>9, 8, 8</td></tr><tr><td>3</td><td>20 kg</td><td>10, 9, 8</td></tr><tr><td>4</td><td>20 kg</td><td>10, 10, 10</td></tr><tr><td>5</td><td>22.5 kg</td><td>8, 8, 8</td></tr></table>
+<p>Only increase weight after every set reaches the top of its rep range with sound form. Use the smallest practical increment.</p>
+<h3>Keep a training log</h3>
+<p>Record exercise, machine setting, weight, reps and sets every session. This is how you verify progress rather than guessing.</p>
+<h3>Recovery and safety</h3>
+<ul>
+<li>Sleep 7–9 hours where possible.</li>
+<li>Keep most sets 2–3 reps short of failure initially.</li>
+<li>Sharp joint pain or pain that changes your movement is a reason to stop and reassess.</li>
+<li>Ask a McFIT trainer to demonstrate unfamiliar equipment and check your squat, bench press and Romanian deadlift technique.</li>
+<li>Do not try to complete every exercise on day one. Learn a few movements properly.</li>
+</ul>
+<h3>Body recomposition basics</h3>
+<ul>
+<li>Protein target: approximately 120–145 g/day.</li>
+<li>Start around 2,000–2,100 kcal/day only as a provisional estimate; adjust after 2–3 weeks based on average weight and waist trend.</li>
+<li>Track morning body weight several times per week and compare weekly averages.</li>
+<li>Measure waist every two weeks and take progress photos monthly.</li>
+<li>Do not expect belly fat to disappear from ab exercises; overall fat loss reduces abdominal fat.</li>
+</ul>
+</section>
+
+<section>
+<h2>Workout checklist</h2>
+<p class="small">Tick items as you complete them. This checklist is for your current visit and resets when you tap Reset.</p>
+<div id="checks">
+<label class="check"><input type="checkbox"> 5-minute easy cardio warm-up</label>
+<label class="check"><input type="checkbox"> Dynamic mobility</label>
+<label class="check"><input type="checkbox"> Exercise-specific warm-up sets</label>
+<label class="check"><input type="checkbox"> Completed prescribed working sets</label>
+<label class="check"><input type="checkbox"> Recorded weights and repetitions</label>
+<label class="check"><input type="checkbox"> Finished with controlled movement; no forced reps</label>
+</div>
+<div class="progress"><span id="bar"></span></div><p class="small" id="count">0 of 6 completed</p>
+<div class="controls"><button onclick="resetChecks()">Reset checklist</button><button class="secondary" onclick="window.print()">Print / Save PDF</button></div>
+</section>
+<footer>Use this as a training reference, not a substitute for an in-person technique demonstration. Progress gradually and prioritise good form.</footer>
+</main>
+<script>
+(() => {
+  const WORKOUT_LOG_KEY = 'gymPlanWorkoutLog_v1';
+  const boxes = [...document.querySelectorAll('#checks input')];
+  function updateChecks() {
+    const n = boxes.filter(x => x.checked).length;
+    const bar = document.getElementById('bar');
+    const count = document.getElementById('count');
+    if (bar) bar.style.width = (n / boxes.length * 100) + '%';
+    if (count) count.textContent = n + ' of ' + boxes.length + ' completed';
+  }
+  boxes.forEach(x => x.addEventListener('change', updateChecks));
+  window.resetChecks = () => { boxes.forEach(x => x.checked = false); updateChecks(); };
+
+  function storageAvailable() {
+    try {
+      const testKey = '__gym_log_test__';
+      window.localStorage.setItem(testKey, '1');
+      window.localStorage.removeItem(testKey);
+      return true;
+    } catch (e) { return false; }
+  }
+  function readLog() {
+    try { return JSON.parse(window.localStorage.getItem(WORKOUT_LOG_KEY) || '{}'); }
+    catch (e) { return {}; }
+  }
+  function writeLog(data) {
+    try { window.localStorage.setItem(WORKOUT_LOG_KEY, JSON.stringify(data)); return true; }
+    catch (e) { return false; }
+  }
+  function formatDate(ts) {
+    return new Date(ts).toLocaleString([], {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'});
+  }
+  function renderHistory(panel) {
+    const records = (readLog()[panel.dataset.exercise] || []).slice().sort((a,b) => b.time-a.time);
+    const box = panel.querySelector('.exercise-history');
+    if (!records.length) { box.innerHTML = '<div class="history-empty">No sets recorded yet.</div>'; return; }
+    let comparison = '';
+    if (records.length > 1) {
+      const w = records[0].weight - records[1].weight;
+      const r = records[0].reps - records[1].reps;
+      comparison = '<div class="history-empty">Vs previous: ' + (w > 0 ? '+' : '') + w + ' kg, ' + (r > 0 ? '+' : '') + r + ' reps</div>';
+    }
+    box.innerHTML = comparison + records.slice(0,20).map(x =>
+      '<div class="history-row"><span>' + formatDate(x.time) + '</span><strong>' + x.weight + ' kg × ' + x.reps + ' reps</strong></div>'
+    ).join('');
+  }
+
+  // Delegated clicks are reliable even if individual exercise panels are expanded later.
+  document.addEventListener('click', event => {
+    const add = event.target.closest('.add-log');
+    const toggle = event.target.closest('.history-toggle');
+    if (add) {
+      event.preventDefault();
+      const panel = add.closest('.log-panel');
+      if (!panel) return;
+      const weight = panel.querySelector('.log-weight');
+      const reps = panel.querySelector('.log-reps');
+      const feedback = panel.querySelector('.log-feedback');
+      const history = panel.querySelector('.exercise-history');
+      const wText = weight.value.trim(), rText = reps.value.trim();
+      const w = Number(wText), r = Number(rText);
+      if (!wText || !rText || !Number.isFinite(w) || w < 0 || !Number.isInteger(r) || r < 1) {
+        feedback.textContent = 'Enter a valid weight and whole-number reps.';
+        feedback.style.color = '#b42318';
+        return;
+      }
+      if (!storageAvailable()) {
+        feedback.textContent = 'Browser storage is blocked. Open this HTML directly in Safari, not the Files preview.';
+        feedback.style.color = '#b42318';
+        return;
+      }
+      const data = readLog();
+      const name = panel.dataset.exercise;
+      data[name] = data[name] || [];
+      data[name].push({weight:w, reps:r, time:Date.now()});
+      if (!writeLog(data)) {
+        feedback.textContent = 'Could not save to this browser. Check Safari privacy/storage settings.';
+        feedback.style.color = '#b42318';
+        return;
+      }
+      feedback.textContent = '✓ Set saved';
+      feedback.style.color = '#16803c';
+      weight.value = ''; reps.value = '';
+      history.hidden = false;
+      panel.querySelector('.history-toggle').textContent = 'Hide history';
+      renderHistory(panel);
+      add.textContent = '✓';
+      setTimeout(() => { add.textContent = '＋'; }, 900);
+      return;
+    }
+    if (toggle) {
+      event.preventDefault();
+      const panel = toggle.closest('.log-panel');
+      const history = panel.querySelector('.exercise-history');
+      history.hidden = !history.hidden;
+      toggle.textContent = history.hidden ? 'Show history' : 'Hide history';
+      if (!history.hidden) renderHistory(panel);
+    }
+  });
+
+  document.querySelectorAll('.log-panel').forEach(panel => renderHistory(panel));
+  updateChecks();
+})();
+</script>
+</body>
+</html>
